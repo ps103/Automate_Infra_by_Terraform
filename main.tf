@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 resource "aws_vpc" "my_vpc" {
-  cidr_block       = "10.0.0.0/16"
+  cidr_block       =  "192.168.0.0/24"
   enable_dns_hostnames = true
   tags = {
     Name = "My VPC"
@@ -12,7 +12,7 @@ resource "aws_vpc" "my_vpc" {
 }
 resource "aws_subnet" "subnet-1" {
   vpc_id     = aws_vpc.my_vpc.id
-  cidr_block = "10.0.0.0/24"
+  cidr_block = "192.168.0.0/26"
   availability_zone = "ap-south-1a"
   tags = {
     Name = "subnet-1"
@@ -20,16 +20,16 @@ resource "aws_subnet" "subnet-1" {
 }
 resource "aws_subnet" "subnet-2" {
   vpc_id     = aws_vpc.my_vpc.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = "192.168.0.64/26"
   availability_zone = "ap-south-1b"
   tags = {
     Name = "subnet-2"
   }
 }
-resource "aws_internet_gateway" "igw" {
+resource "aws_internet_gateway" "IGW" {
   vpc_id = aws_vpc.my_vpc.id
   tags = {
-    Name = "igw"
+    Name = "IGW-mumbai"
   }
 }
 resource "aws_route_table" "route" {
@@ -85,7 +85,7 @@ resource "aws_launch_configuration" "web" {
   name_prefix = "web-"
   image_id = "ami-06f4bcea47497a780" 
   instance_type = "t2.micro"
-  key_name = "mumbai1.key"
+  key_name = "mumbai_region.key"
   security_groups = [ aws_security_group.allow_http.id ]
   associate_public_ip_address = true
  
